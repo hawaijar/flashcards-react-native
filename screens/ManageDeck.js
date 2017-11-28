@@ -63,7 +63,9 @@ class ManageDeck extends Component {
   }
 
   handleSubmit = () => {
-    if (this.state.title !== '') {
+    // AsyncStorage.removeItem(`${ManageDeck.KEY_STORAGE}`)
+    //   .then(result => console.log(result));
+    if (this.state.title.trim().length === 0) {
       this._isStoreExist()
         .then(store => {
           if (store === null) {
