@@ -20,6 +20,10 @@ class DeckList extends Component {
     return store;
   };
 
+  onclickHandle = () => {
+    this.props.navigation.navigate('Detail');
+  };
+
   buildCards = () => {
     if (Object.keys(this.state.decks).length === 0) {
       return (
@@ -31,7 +35,14 @@ class DeckList extends Component {
     return Object.keys(this.state.decks).map(deck => {
       const title = deck;
       const count = this.state.decks[`${deck}`].questions.length;
-      return <Card key={title} title={title} count={count} />;
+      return (
+        <Card
+          key={title}
+          title={title}
+          count={count}
+          onclickHandle={this.onclickHandle}
+        />
+      );
     });
   };
   componentWillMount() {

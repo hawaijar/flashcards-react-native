@@ -1,12 +1,13 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
+import { TouchableOpacity, Text } from 'react-native';
+import StackRouter from '../screens/StackRouter';
 import DeckList from '../screens/DeckList';
 import ManageDeck from '../screens/ManageDeck';
-import { TouchableOpacity, Text } from 'react-native';
 
 const Tabs = TabNavigator({
   DeckList: {
-    screen: DeckList,
+    screen: StackRouter,
     navigationOptions: ({ navigation }) => ({
       tabBarLabel: ({ tintColor }) => (
         <TouchableOpacity
@@ -19,7 +20,18 @@ const Tabs = TabNavigator({
     })
   },
   ManageDeck: {
-    screen: ManageDeck
+    screen: ManageDeck,
+    navigationOptions: ({ navigation }) => ({
+      tabBarLabel: ({ tintColor }) => (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('ManageDeck', { date: new Date() })}
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text>ManageDeck</Text>
+        </TouchableOpacity>
+      )
+    })
   }
 });
 
