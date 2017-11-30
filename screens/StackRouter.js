@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import IOSIcon from 'react-native-vector-icons/Ionicons';
 import DeckList from './DeckList';
-import CardScreen from './CardScreen';
+import CardDetail from './CardDetail';
 
 const StackRouter = StackNavigator({
   DeckList: {
@@ -13,9 +13,9 @@ const StackRouter = StackNavigator({
     })
   },
   Detail: {
-    screen: CardScreen,
+    screen: CardDetail,
     navigationOptions: props => ({
-      title: 'Card Info'
+      title: `${props.navigation.state.params.title}`
     })
   }
 });

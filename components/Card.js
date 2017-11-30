@@ -8,13 +8,13 @@ import {
 } from 'react-native';
 
 class Card extends Component {
-  Pressed = () => {
-    this.props.onclickHandle();
+  Pressed = (title, count) => {
+    this.props.onclickHandle(title, count);
   };
   render() {
     const { title, count } = this.props;
     return (
-      <TouchableHighlight underlayColor={'gray'} onPress={this.Pressed}>
+      <TouchableHighlight underlayColor={'gray'} onPress={() => this.Pressed(title, count)}>
         <View style={styles.container}>
           <View>
             <Text style={styles.titleStyle}>{title}</Text>

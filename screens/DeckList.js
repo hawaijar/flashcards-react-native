@@ -20,8 +20,8 @@ class DeckList extends Component {
     return store;
   };
 
-  onclickHandle = () => {
-    this.props.navigation.navigate('Detail');
+  onclickHandle = (title, count) => {
+    this.props.navigation.navigate('Detail', {title, count});
   };
 
   buildCards = () => {
