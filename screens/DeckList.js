@@ -1,40 +1,34 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Card from '../components/Card';
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
-  ScrollView,
-  AsyncStorage
+  ScrollView
 } from 'react-native';
 
 class DeckList extends Component {
-  static KEY_STORAGE = 'decks';
   state = {
-    loading: true,
     decks: {}
   };
-  _fetchDecks = async () => {
-    const store = await AsyncStorage.getItem(DeckList.KEY_STORAGE);
-    return store;
-  };
-
   onclickHandle = (title, count) => {
-    this.props.navigation.navigate('Detail', {title, count});
+    this.props.navigation.navigate('Detail', { title, count });
   };
 
   buildCards = () => {
-    if (Object.keys(this.state.decks).length === 0) {
+    const { decks } = this.props;
+    if (Object.keys(decks).length === 0) {
       return (
         <View>
           <Text>No Decks available</Text>
         </View>
       );
     }
-    return Object.keys(this.state.decks).map(deck => {
-      const title = deck;
-      const count = this.state.decks[`${deck}`].questions.length;
+    return Object.keys(decks).map(deck => {
+      const { title, questions } = decks[`${deck}`];
+      const count = questions.length;
       return (
         <Card
           key={title}
@@ -45,16 +39,11 @@ class DeckList extends Component {
       );
     });
   };
-  componentWillMount() {
-    this._fetchDecks()
-      .then(store => {
-        if (store !== null) {
-          const decks = JSON.parse(store);
-          this.setState({ decks, loading: false });
-        }
-      })
-      .catch(e => console.log(e));
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ decks: nextProps.decks });
   }
+
   render() {
     return (
       <ScrollView>
@@ -66,34 +55,15 @@ class DeckList extends Component {
       </ScrollView>
     );
   }
-  componentDidUpdate(prevProps, prevState) {
-    this._fetchDecks()
-      .then(store => {
-        if (store !== null) {
-          const decks = JSON.parse(store);
-          if (Object.keys(this.state.decks).length === 0) {
-            this.setState({ decks });
-          } else {
-            const decksList = Object.keys(decks);
-            const currentDecksList = Object.keys(this.state.decks);
-            console.log('current decks:', currentDecksList);
-            console.log('updated decks:', decksList);
-            if (
-              decksList.length == currentDecksList.length &&
-              decksList.every((v, i) => v === currentDecksList[i])
-            ) {
-              return;
-            } else {
-              this.setState({ decks });
-            }
-          }
-        }
-      })
-      .catch(e => console.log(e));
-  }
 }
 
-export default DeckList;
+function mapStateToProps(state, ownProps) {
+  return {
+    decks: state.decks
+  };
+}
+
+export default connect(mapStateToProps, null)(DeckList);
 
 const Styles = {
   container: {

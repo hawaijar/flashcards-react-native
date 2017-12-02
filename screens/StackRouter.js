@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import IOSIcon from 'react-native-vector-icons/Ionicons';
 import DeckList from './DeckList';
 import CardDetail from './CardDetail';
+import AddQuestion from './AddQuestion';
 
 const StackRouter = StackNavigator({
   DeckList: {
@@ -18,6 +19,13 @@ const StackRouter = StackNavigator({
       title: `${props.navigation.state.params.title}`
     })
   }
+  // ,
+  // AddQuestion: {
+  //   screen: AddQuestion,
+  //   navigationOptions: props => ({
+  //     title: `Add Card`
+  //   })
+  // }
 });
 
 export default StackRouter;

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addDeck } from '../actions';
 import {
   View,
   Text,
@@ -62,22 +64,20 @@ class ManageDeck extends Component {
     }
   }
 
+  _addDeck = title => {
+    this.props.newDeck(title);
+  };
+
   handleSubmit = () => {
-    // AsyncStorage.removeItem(`${ManageDeck.KEY_STORAGE}`)
-    //   .then(result => console.log(result));
-    if (this.state.title.trim().length === 0) {
-      this._isStoreExist()
-        .then(store => {
-          if (store === null) {
-            this._createStore().then(store => console.log(store));
-          } else {
-            this._addDeck(JSON.parse(store)).then(store => {
-              console.log(store);
-              this.setState({ title: '' });
-            });
-          }
-        })
-        .catch(e => console.log(e));
+    const { decks } = this.props;
+    const title = this.state.title;
+    if (title.length !== 0) {
+      if (Object.keys(decks).includes(`{title}`)) {
+        Alert.alert(`Deck ${DECK} is already existing!`);
+      } else {
+        this.props.newDeck(title);
+        this.setState({ title: '' });
+      }
     }
   };
 
@@ -105,7 +105,20 @@ class ManageDeck extends Component {
   }
 }
 
-export default ManageDeck;
+function mapStateToProps(state, ownProps) {
+  return {
+    decks: state.decks
+  };
+}
+function mapDispatchToActions(dispatch) {
+  return {
+    newDeck(title, question, choices) {
+      dispatch(addDeck(title));
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToActions)(ManageDeck);
 
 const Styles = {
   container: {

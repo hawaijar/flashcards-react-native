@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 class CardDetail extends Component {
-  handleAddCard = () => {};
+  handleAddCard = (title) => {
+    this.props.navigation.navigate('AddQuestion', title);
+  };
   handleStartQuiz = () => {};
   render() {
     const { navigation } = this.props;
@@ -17,7 +19,7 @@ class CardDetail extends Component {
 
         <View style={styles.footer}>
           <TouchableOpacity
-            onPress={this.handleAddCard}
+            onPress={() => this.handleAddCard(`${navigation.state.params.title}`)}
             style={styles.pressButton}
           >
             <Text style={{ color: 'white' }}> Add Card </Text>
