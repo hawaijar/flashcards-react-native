@@ -14,9 +14,10 @@ export function removeDeck(deck) {
     payload: { deck },
   };
 }
-export function addCard(title, question, choices) {
+export function addCard(title, question, answer) {
+  console.log('here')
   return {
     type: ADD_CARD,
-    payload: { title, question, choices },
+    payload: { title, question, answer },
   };
 }

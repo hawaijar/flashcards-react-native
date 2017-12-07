@@ -21,6 +21,7 @@ class ManageDeck extends Component {
     title: ''
   };
   static KEY_STORAGE = 'decks';
+  
   handleChange = title => {
     this.setState({ title });
   };

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { addCard } from '../actions';
 import {
   View,
   Text,
@@ -14,19 +15,33 @@ class AddQuestion extends Component {
     question: '',
     answer: ''
   };
-  updateQuestion = e => {
-    const question = e.target.value;
+  updateQuestion = question => {
     this.setState({ question });
   };
-  updateAnswer = e => {
-    const answer = e.target.value;
+  updateAnswer = answer => {
     this.setState({ answer });
   };
 
   handleSubmit = () => {
-    const card = this.props.navigation.state.params['title'];
-    Alert.alert('Hello:', card);
+    console.log('this.props.navigation.state:', this.props.navigation.state);
+    const title = this.props.navigation.state.params['title'];
+    const question = this.state.question;
+    const answer = this.state.answer;
+    this.props.newCard(title, question, answer);
+    this.setState(prevState => {
+      return {
+        title: '',
+        question: '',
+        answer: ''
+      };
+    }, () => {
+      this.props.navigation.state.params.refresh();
+    });
   };
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps:', nextProps);
+    
+  }
   render() {
     return (
       <View>
@@ -41,7 +56,7 @@ class AddQuestion extends Component {
         </View>
         <View style={styles.answer}>
           <TextInput
-            placeholder="Enter options"
+            placeholder="Enter answer"
             placeholderTextColor="#9a73ef"
             style={styles.textInputStyle}
             onChangeText={this.updateAnswer}
@@ -88,5 +103,22 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 });
+function mapStateToProps(state, ownProps) {
+  const title = ownProps.navigation.state.params.title;
+  const count = state.decks[`${title}`].questions.length;
+  console.log('count:', count)
+  return {
+    questions: state.decks[`${title}`].questions,
+    count: state.decks[`${title}`].count
+  };
+}
+function mapDispatchToActions(dispatch) {
+  console.log('whew...')
+  return {
+    newCard(title, question, answer) {
+      dispatch(addCard(title, question, answer));
+    }
+  };
+}
 
-export default AddQuestion;
+export default connect(mapStateToProps, mapDispatchToActions)(AddQuestion);

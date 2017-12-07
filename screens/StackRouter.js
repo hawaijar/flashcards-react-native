@@ -19,13 +19,13 @@ const StackRouter = StackNavigator({
       title: `${props.navigation.state.params.title}`
     })
   }
-  // ,
-  // AddQuestion: {
-  //   screen: AddQuestion,
-  //   navigationOptions: props => ({
-  //     title: `Add Card`
-  //   })
-  // }
+  ,
+  AddQuestion: {
+    screen: AddQuestion,
+    navigationOptions: props => ({
+      title: `${props.navigation.state.params.title}`
+    })
+  }
 });
 
 export default StackRouter;
