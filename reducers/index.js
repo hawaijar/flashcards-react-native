@@ -31,10 +31,14 @@ const decks = (state = data, action) => {
           answer
         }
       ];
-      state[`${title}`].questions = questions;
-      state[`${title}`].count = questions.length;
-      console.log('state:', state)
-      return state;
+      return {
+        ...state,
+        [title]: {
+          title: `${title}`,
+          questions
+        }
+      }
+
     }
     default:
       return state;

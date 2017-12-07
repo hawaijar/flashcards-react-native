@@ -38,10 +38,6 @@ class AddQuestion extends Component {
       this.props.navigation.state.params.refresh();
     });
   };
-  componentWillReceiveProps(nextProps) {
-    console.log('nextProps:', nextProps);
-    
-  }
   render() {
     return (
       <View>
@@ -103,15 +99,6 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 });
-function mapStateToProps(state, ownProps) {
-  const title = ownProps.navigation.state.params.title;
-  const count = state.decks[`${title}`].questions.length;
-  console.log('count:', count)
-  return {
-    questions: state.decks[`${title}`].questions,
-    count: state.decks[`${title}`].count
-  };
-}
 function mapDispatchToActions(dispatch) {
   console.log('whew...')
   return {
@@ -121,4 +108,4 @@ function mapDispatchToActions(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToActions)(AddQuestion);
+export default connect(null, mapDispatchToActions)(AddQuestion);

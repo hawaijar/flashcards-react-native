@@ -23,12 +23,12 @@ class CardDetail extends Component {
   };
   handleStartQuiz = () => {};
 
-  componentWillReceiveProps(nextProps) {
-    console.log('nextProps:', nextProps);
-    const title = this.state.title;
-    const count = nextProps.count;
-    this.setState({ count });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('nextProps:', nextProps);
+  //   const title = this.state.title;
+  //   const count = nextProps.count;
+  //   this.setState({ count });
+  // }
 
   render() {
     const {count} = this.props;
@@ -92,7 +92,7 @@ function mapStateToProps(state, ownProps) {
   console.log('count:', count)
   return {
     questions: state.decks[`${title}`].questions,
-    count: state.decks[`${title}`].count
+    count
   };
 }
 
